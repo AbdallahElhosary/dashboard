@@ -9,7 +9,7 @@ const HelmetTag = ({ title }) => {
       <Helmet>
         <meta charSet="utf-8" />
         <title>{t(title) }</title>
-        <link rel="canonical" href="http://mysite.com/example" />
+        <link rel="canonical" href="http://mysite.com/example" accessKey='site'/>
       </Helmet>
   )
 }

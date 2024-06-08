@@ -54,6 +54,7 @@ function CreateCabinFormV1() {
           type='text'
           id='name'
           disabled={isAdded}
+          aria-hidden="true"
           {...register("name", {
             required: "The Field Is Required",
             
@@ -66,6 +67,7 @@ function CreateCabinFormV1() {
           type='number'
           id='maxCapacity'
           disabled={isAdded}
+          aria-hidden="true"
           {...register("maxCapacity", {
             required: "The Field Is Required",
             min: {
@@ -82,6 +84,7 @@ function CreateCabinFormV1() {
           type='number'
           id='regularPrice'
           disabled={isAdded}
+          aria-hidden="true"
           {...register("regularPrice", {
             required: "The Field Is Required"
           })}
@@ -94,6 +97,7 @@ function CreateCabinFormV1() {
           type='number'
           id='discount'
           disabled={isAdded}
+          aria-hidden="true"
           defaultValue={0}
           {...register("discount", {
             required: "The Field Is Required",
@@ -111,6 +115,7 @@ function CreateCabinFormV1() {
           type='number'
           id='description'
           disabled={isAdded}
+          aria-hidden="true"
           defaultValue=''
           {...register("description", {
             required: "The Field Is Required"
@@ -125,6 +130,7 @@ function CreateCabinFormV1() {
           accept='image/*'
           type="file"
           disabled={isAdded}
+          aria-hidden="true"
           {...register("image", {
             required: "The Field Is Required"
           })}

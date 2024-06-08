@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 
 const Form = styled.form`
+grid-column: 1 / 0;
   ${(props) =>
     props.type !== "modal" &&
     css`

@@ -1,9 +1,10 @@
-import CheckoutButton from 'features/check-in-out/CheckoutButton';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Button from 'ui/Button';
-import { Flag } from 'ui/Flag';
-import Tag from 'ui/Tag';
+import Button from '../../ui/Button';
+import { Flag } from '../../ui/Flag';
+import Tag from '../../ui/Tag';
+import CheckoutButton from '../check-in-out/CheckoutButton';
+import { useTranslation } from 'react-i18next';
 
 const StyledTodayItem = styled.li`
   display: grid;
@@ -28,6 +29,7 @@ const Guest = styled.div`
 `;
 
 function TodayItem({ stay }) {
+  const { t } = useTranslation();
   const { id, status, guests, numNights } = stay;
 
   const statusToAction = {
@@ -41,7 +43,7 @@ function TodayItem({ stay }) {
           as={Link}
           to={`/checkin/${id}`}
         >
-          Check in
+          {t("Check in")}
         </Button>
       ),
     },
@@ -57,9 +59,9 @@ function TodayItem({ stay }) {
       <Tag type={statusToAction[status].tag}>
         {statusToAction[status].action}
       </Tag>
-      <Flag src={guests.countryFlag} alt={`Flag of ${guests.country}`} />
+      <Flag src={guests.countryFlag} alt={`${t("Flag of")} ${guests.country}`} />
       <Guest>{guests.fullName}</Guest>
-      <div>{numNights} nights</div>
+      <div>{numNights} {t("nights")}</div>
 
       {statusToAction[status].button}
     </StyledTodayItem>

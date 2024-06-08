@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 
 const StyledSelect = styled.select`
@@ -13,3 +14,26 @@ const StyledSelect = styled.select`
   font-weight: 500;
   box-shadow: var(--shadow-sm);
 `;
+
+
+const Select = ({ options, value, onChange , ...props }) => {
+  
+  const { t } = useTranslation();
+  return (
+    <StyledSelect value={value} onChange={onChange} {...props}>
+      {
+        options?.map((opt) => {
+          return (
+            <option value={opt.value}
+              key={opt.value}>
+              {t(opt.label)}
+            </option>
+          )
+        })
+      }
+    </StyledSelect>
+  )
+}
+
+export default Select
+

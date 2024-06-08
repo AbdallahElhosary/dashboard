@@ -4,6 +4,7 @@ import CabinTable from "../features/cabins/CabinTable";
 import { useTranslation } from "react-i18next";
 import HelmetTag from "../ui/HelmetTag";
 import AddCabin from "../features/cabins/AddCabin";
+import CabinTableOperations from "../features/cabins/CabinTableOperations";
 
 function Cabins() {
   const { t } = useTranslation();
@@ -14,7 +15,7 @@ function Cabins() {
         <Heading as="h1">
           {t('All cabins')}
         </Heading>
-        <p>{t('Filter / Sort')}</p>
+        <CabinTableOperations />
       </Row>
       
       <Row>

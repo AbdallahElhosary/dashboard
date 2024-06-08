@@ -38,6 +38,7 @@ function ConfirmDelete({ resource, onConfirm, disabled, onCloseModal }) {
           variation="danger"
           onClick={onConfirm}
           disabled={disabled}
+          aria-hidden="true"
         >
           Delete
         </Button>

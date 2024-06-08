@@ -1,5 +1,5 @@
-import Button from 'ui/Button';
-import { useCheckout } from './useCheckout';
+import Button from '../../ui/Button';
+import  useCheckout  from './useCheckout';
 
 function CheckoutButton({ bookingId }) {
   const { isLoading, mutate: checkout } = useCheckout();
@@ -10,6 +10,7 @@ function CheckoutButton({ bookingId }) {
       size='small'
       onClick={() => checkout(bookingId)}
       disabled={isLoading}
+      aria-hidden="true"
     >
       Check out
     </Button>

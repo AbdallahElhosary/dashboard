@@ -10,18 +10,7 @@ import ConfirmDelete from '../../ui/ConfirmDelete';
 import Table from '../../ui/Table';
 import Menus from '../../ui/Menus';
 
-// v1
-// const TableRow = styled.div`
-//   display: grid;
-//   grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
-//   column-gap: 2.4rem;
-//   align-items: center;
-//   padding: 1.4rem 2.4rem;
 
-//   &:not(:last-child) {
-//     border-bottom: 1px solid var(--color-grey-100);
-//   }
-// `;
 
 const Img = styled.img`
   display: block;
@@ -68,7 +57,7 @@ function CabinRow({ cabin }) {
   const { t } = useTranslation();
 
   const { deleteCabin, isDeleting } = useDeleteCabin()
-  const { createCabin, isAdded } = useCreateCabin();
+  const { createCabin , isAdded } = useCreateCabin();
 
   const handleDuplicate = () => {
     createCabin({
@@ -83,7 +72,7 @@ function CabinRow({ cabin }) {
 
   return (
     <Table.Row>
-      <Img src={image} loading='lazy' />
+      <Img src={image} loading='lazy' alt='cabin-img' />
       <Cabin>{name}</Cabin>
       <div>{t("Fits up to {{maxCapacity}} guests", { maxCapacity })}</div>
       <Price>{formatCurrency(regularPrice)}</Price>
@@ -94,12 +83,12 @@ function CabinRow({ cabin }) {
             <Menus.Toggle id={cabinId} />
 
             <Menus.List id={cabinId}>
-              <Menus.Button icon={<HiSquare2Stack />} onClick={handleDuplicate}>Duplicate</Menus.Button>
+              <Menus.Button icon={<HiSquare2Stack />} onClick={handleDuplicate} disabled={isAdded}>{t("Duplicate")}</Menus.Button>
               <Modal.Open opens="edit">
-                <Menus.Button icon={<HiPencil />} onClick={handleDuplicate}>Edit</Menus.Button>
+                <Menus.Button icon={<HiPencil />} onClick={handleDuplicate}>{t("Edit")}</Menus.Button>
               </Modal.Open>
               <Modal.Open opens="delete">
-                <Menus.Button icon={<HiTrash />} onClick={handleDuplicate}>Delete</Menus.Button>
+                <Menus.Button icon={<HiTrash />} onClick={handleDuplicate}>{t("Delete")}</Menus.Button>
               </Modal.Open>
 
             </Menus.List>
@@ -112,14 +101,13 @@ function CabinRow({ cabin }) {
           
           <Modal.Window name="delete">
             <ConfirmDelete resource={name}
-              disabled={isDeleting}
+                disabled={isDeleting}
+                aria-hidden="true"
               onConfirm={() => deleteCabin(cabinId)}
             />
           </Modal.Window>
         </Menus.Menu>
         </Modal>
-
-        
         
       </div>
 

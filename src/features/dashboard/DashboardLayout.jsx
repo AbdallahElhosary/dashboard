@@ -1,18 +1,16 @@
 import styled from 'styled-components';
-
-import DurationChart from 'features/dashboard/DurationChart';
-import SalesChart from 'features/dashboard/SalesChart';
-import Stats from 'features/dashboard/Stats';
-import TodayActivity from 'features/check-in-out/TodayActivity';
-import { useRecentBookings } from 'features/dashboard/useRecentBookings';
-import Spinner from 'ui/Spinner';
+import { useRecentBookings } from './useRecentBookings';
+import Spinner from '../../ui/Spinner';
 import { useRecentStays } from './useRecentStays';
-import { useCabins } from 'features/cabins/useCabins';
-
+import Stats from './Stats';
+import { useCabins } from '../cabins/useCabins';
+import SalesChart from './SalesChart';
+import DurationChart from './DurationChart';
+import TodayActivity from '../check-in-out/TodayActivity';
 const StyledDashboardLayout = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: auto 34rem auto;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  /* grid-template-rows: auto 34rem auto; */
   gap: 2.4rem;
 `;
 
@@ -23,11 +21,20 @@ We need to distinguish between two types of data here:
 */
 
 function DashboardLayout() {
-  const { isLoading: isLoading1, bookings, numDays } = useRecentBookings();
-  const { isLoading: isLoading2, confirmedStays } = useRecentStays();
-  const { isLoading: isLoading3, cabins } = useCabins();
+  // const { isLoading: isLoading2, confirmedStays } = useRecentStays();
 
-  if (isLoading1 || isLoading2 || isLoading3) return <Spinner />;
+  const { isLoading, bookings } = useRecentBookings();
+
+  const { isLoading : isLoading1 , confirmedStays, numDays } = useRecentStays();
+  
+// Get cabins to calc the cobins number
+  const { cabins, isLoading: isLoading3 } = useCabins();
+
+  // Return spinner while loading
+  if (isLoading || isLoading1 || isLoading3 ) {
+    return <Spinner />;
+  }
+
 
   return (
     <StyledDashboardLayout>
@@ -35,11 +42,13 @@ function DashboardLayout() {
         bookings={bookings}
         confirmedStays={confirmedStays}
         numDays={numDays}
-        cabinCount={cabins.length}
-      />
+        cabinCount={cabins.length} 
+        />
       <TodayActivity />
-      <DurationChart confirmedStays={confirmedStays} />
-      <SalesChart bookings={bookings} numDays={numDays} />
+      <DurationChart
+        confirmedStays={confirmedStays}
+      />
+      <SalesChart bookings={bookings} numDays={numDays}/>
     </StyledDashboardLayout>
   );
 }

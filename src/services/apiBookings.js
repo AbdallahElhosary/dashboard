@@ -1,5 +1,47 @@
+import { PAGE_SIZE } from "../utils/constants";
 import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
+
+export async function getBookings({ filter, sortBy, page }) {
+  var query = supabase
+    .from('bookings')
+    .select('id , created_at ,numNights,numGuests ,startDate,totalPrice,endDate,status , cabins(name) , guests(fullName , email)',
+      { count: "exact" })
+  
+  // FILTER
+
+  if (filter) {
+    query = query[filter.method || "eq"](filter.field , filter.value)
+
+  }
+
+  // SORT
+
+  if (sortBy) {
+    query = query.order(sortBy.field, {
+      ascending: sortBy.direction === "asc",
+    })
+  }
+  // Handle the page count
+  if (page) {
+    const from = (page - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    query = query.range(from, to);
+  }
+  
+  let { data, error, count } =await  query
+
+  if (error) {
+    console.error(error);
+    throw new Error("Cabins could not be loaded");
+  }
+
+  return {data ,count};
+  
+}
+
+
+
 
 export async function getBooking(id) {
   const { data, error } = await supabase
@@ -39,7 +81,7 @@ export async function getStaysAfterDate(date) {
     // .select('*')
     .select("*, guests(fullName)")
     .gte("startDate", date)
-    .lte("startDate", getToday());
+    .lte("startDate", getToday())
 
   if (error) {
     console.error(error);

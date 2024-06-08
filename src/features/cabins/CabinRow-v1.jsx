@@ -88,7 +88,7 @@ function CabinRow({ cabin }) {
       <Price>{formatCurrency(regularPrice)}</Price>
       <Discount>{discount > 0 ? formatCurrency(discount) : "--"}</Discount>
       <div>
-        <button disabled={isAdded} onClick={handleDuplicate}>
+        <button disabled={isAdded} aria-hidden="true" onClick={handleDuplicate}>
           <HiSquare2Stack />
         </button>
         <Modal>
@@ -103,13 +103,14 @@ function CabinRow({ cabin }) {
             </div>
           </Modal.Window>
           <Modal.Open opens="delete">
-            <button  disabled={isDeleting}>
+            <button disabled={isDeleting} aria-hidden="true">
               <HiTrash />
             </button>
           </Modal.Open>
           <Modal.Window name="delete">
             <ConfirmDelete resource={name}
               disabled={isDeleting}
+              aria-hidden="true"
               onConfirm={() => deleteCabin(cabinId)}
             />
           </Modal.Window>

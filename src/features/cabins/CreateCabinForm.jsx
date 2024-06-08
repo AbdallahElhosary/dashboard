@@ -38,6 +38,7 @@ function CreateCabinForm({ cabinToEdit = {}}) {
 
   const isWorking = isAdded || isEditing;
 
+  // On Submit Function
   function onSubmit(data) {
     const image = typeof data.image === "string" ? data.image : data.image[0];
 
@@ -61,12 +62,10 @@ function CreateCabinForm({ cabinToEdit = {}}) {
       );
   }
 
+  // On Error Function
   function onError(errs) {
     console.log(errs)
   }
-
-  
-  
 
   
   return (
@@ -76,6 +75,7 @@ function CreateCabinForm({ cabinToEdit = {}}) {
           type='text'
           id='name'
           disabled={isWorking}
+          aria-hidden="true"
           {...register("name", {
             required: "The Field Is Required",
             
@@ -88,6 +88,7 @@ function CreateCabinForm({ cabinToEdit = {}}) {
           type='number'
           id='maxCapacity'
           disabled={isWorking}
+          aria-hidden="true"
           {...register("maxCapacity", {
             required: "The Field Is Required",
             min: {
@@ -104,6 +105,7 @@ function CreateCabinForm({ cabinToEdit = {}}) {
           type='number'
           id='regularPrice'
           disabled={isWorking}
+          aria-hidden="true"
           defaultValue={0}
           {...register("regularPrice", {
             required: "The Field Is Required"
@@ -117,6 +119,7 @@ function CreateCabinForm({ cabinToEdit = {}}) {
           type='number'
           id='discount'
           disabled={isWorking}
+          aria-hidden="true"
           defaultValue={0}
           {...register("discount", {
             required: "The Field Is Required",
@@ -134,6 +137,7 @@ function CreateCabinForm({ cabinToEdit = {}}) {
           type='number'
           id='description'
           disabled={isWorking}
+          aria-hidden="true"
           defaultValue=''
           {...register("description", {
             required: "The Field Is Required"
@@ -148,6 +152,7 @@ function CreateCabinForm({ cabinToEdit = {}}) {
           accept='image/*'
           type="file"
           disabled={isWorking}
+          aria-hidden="true"
           {...register("image", {
             required: isEditSession ? false :
            "The Field Is Required"
@@ -158,7 +163,9 @@ function CreateCabinForm({ cabinToEdit = {}}) {
       <FormRow>
         {/* type is an HTML attribute! */}
         
-        <Button disabled={isWorking}>
+        <Button disabled={isWorking}
+          aria-hidden="true"
+      >
           {isEditSession ?   t("Edit Cabin"):t("Add Cabin")}
         </Button>
       </FormRow>

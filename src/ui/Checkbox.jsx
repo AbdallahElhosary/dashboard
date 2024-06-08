@@ -34,6 +34,7 @@ function Checkbox({ checked, onChange, disabled = false, id, children }) {
         checked={checked}
         onChange={onChange}
         disabled={disabled}
+        aria-hidden="true"
       />
       <label htmlFor={!disabled ? id : ""}>{children}</label>
     </StyledCheckbox>

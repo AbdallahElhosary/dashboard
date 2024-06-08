@@ -1,18 +1,21 @@
 import { useForm } from 'react-hook-form';
-import Button from 'ui/Button';
-import Form from 'ui/Form';
-import FormRow from 'ui/FormRow';
-import Input from 'ui/Input';
+import Button from '../../ui/Button';
+import Form from '../../ui/Form';
+import FormRow from '../../ui/FormRow';
+import Input from '../../ui/Input';
 import { useUpdateUser } from './useUpdateUser';
+import { useTranslation } from 'react-i18next';
 
 function UpdatePasswordForm() {
   const { register, handleSubmit, formState, getValues, reset } = useForm();
   const { errors } = formState;
 
-  const { mutate: updateUser, isLoading: isUpdating } = useUpdateUser();
+  const { updatedUser, isUpdating } = useUpdateUser();
+  const { t } = useTranslation()
+
 
   function onSubmit({ password }) {
-    updateUser({ password }, { onSuccess: () => reset() });
+    updatedUser({ password }, { onSuccess: () => reset() });
   }
 
   function handleReset(e) {
@@ -23,12 +26,13 @@ function UpdatePasswordForm() {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow
-        label='Password (min 8 characters)'
+        label={t('Password (min 8 characters):')}
         error={errors?.password?.message}
       >
         <Input
           type='password'
           id='password'
+          alt="password"
           // this makes the form better for password managers
           autoComplete='current-password'
           disabled={isUpdating}
@@ -43,14 +47,16 @@ function UpdatePasswordForm() {
       </FormRow>
 
       <FormRow
-        label='Confirm password'
+        label={t('Confirm password')}
         error={errors?.passwordConfirm?.message}
       >
         <Input
           type='password'
           autoComplete='new-password'
           id='passwordConfirm'
+          alt="confirm-password"
           disabled={isUpdating}
+          aria-hidden="true"
           {...register('passwordConfirm', {
             required: 'This field is required',
             validate: (value) =>
@@ -60,9 +66,9 @@ function UpdatePasswordForm() {
       </FormRow>
       <FormRow>
         <Button onClick={handleReset} type='reset' variation='secondary'>
-          Cancel
+          {t("Cancel")}
         </Button>
-        <Button disabled={isUpdating}>Update password</Button>
+        <Button disabled={isUpdating}>{t("Update password")}</Button>
       </FormRow>
     </Form>
   );

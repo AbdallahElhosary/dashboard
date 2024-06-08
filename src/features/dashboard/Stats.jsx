@@ -4,10 +4,13 @@ import {
   HiOutlineBanknotes,
   HiOutlineChartBar,
 } from 'react-icons/hi2';
-import { formatCurrency } from 'utils/helpers';
+import { formatCurrency } from '../../utils/helpers';
 import Stat from './Stat';
+import { useTranslation } from 'react-i18next';
 
 function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
+
+  const {t} = useTranslation();
   // Stat 1)
   const numBookings = bookings.length;
 
@@ -15,38 +18,41 @@ function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
   const sales = bookings.reduce((acc, cur) => acc + cur.totalPrice, 0);
 
   // Stat 3)
+  // console.log(confirmedStays)
   const checkins = confirmedStays.length;
 
   // Stat 4)
   // We will use a trick to calculate occupancy rate. It's not 100% accurate, but we want to keep it simple. We know we can have a total of 'numDays * cabinCount' days to occupy, and we also know how many days were actually booked. From this, we can compute the percentage
+  // 4.
   const occupation =
-    confirmedStays.reduce((acc, cur) => acc + cur.numNights, 0) /
-    (numDays * cabinCount);
+    confirmedStays.reduce((acc, cur) => acc + cur.numNights, 0) / (numDays * cabinCount)
+  // num checked in nights / all available nights (num days * num cabins)
+  
 
   return (
     <>
       <Stat
         icon={<HiOutlineBriefcase />}
-        title='Bookings'
+        title={t('Bookings')}
         value={numBookings}
         color='blue'
       />
       <Stat
         icon={<HiOutlineBanknotes />}
-        title='Sales'
+        title={t('Sales')}
         value={formatCurrency(sales)}
         color='green'
       />
       <Stat
         icon={<HiOutlineCalendarDays />}
-        title='Check ins'
+        title={t('Check ins')}
         value={checkins}
         color='indigo'
       />
       <Stat
         icon={<HiOutlineChartBar />}
-        title='Occupancy rate'
-        value={Math.round(occupation * 100) + '%'}
+        title={t('Occupancy rate')}
+        value={(Math.round(occupation * 100)) + '%'}
         color='yellow'
       />
     </>
